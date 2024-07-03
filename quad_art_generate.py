@@ -2,7 +2,6 @@ from PIL import Image, ImageDraw
 from collections import Counter
 import heapq
 import sys
-import os
 
 MODE_RECTANGLE = 1
 MODE_ELLIPSE = 2
@@ -13,7 +12,7 @@ ITERATIONS = 1024 * 12
 LEAF_SIZE = 8
 PADDING = 0
 FILL_COLOR = (0, 0, 0)
-SAVE_FRAMES = True
+SAVE_FRAMES = False
 ERROR_RATE = 0.5
 AREA_POWER = 0.25
 OUTPUT_SCALE = 1
@@ -172,23 +171,26 @@ def main():
     print("-" * 32)
     print("             %8d %8.2f%%" % (len(model.quads), 100))
 
-    # Generate GIF from saved frames
-    frames_dir = "frames"
-
-    # get a sorted list of all the images and add their image data to a list
-    images = []
-    for frame in sorted(os.listdir(frames_dir)):
-        if frame.endswith("png"):
-            frame_path = os.path.join(frames_dir, frame)
-            images.append(Image.open(frame_path))
-
-    output_gif = "output.gif"
-
-    # save the frames as a gif
-    images[0].save(
-        output_gif, save_all=True, append_images=images[1:], loop=0, duration=100
-    )
+    # # Generate GIF from saved frames
+    # frames_dir = "frames"
+    #
+    # # get a sorted list of all the images and add their image data to a list
+    # images = []
+    # for frame in sorted(os.listdir(frames_dir)):
+    #     if frame.endswith("png"):
+    #         frame_path = os.path.join(frames_dir, frame)
+    #         images.append(Image.open(frame_path))
+    #
+    # output_gif = "output.gif"
+    #
+    # # save the frames as a gif
+    # images[0].save(
+    #     output_gif, save_all=True, append_images=images[1:], loop=0, duration=100
+    # )
+    #
 
 
 if __name__ == "__main__":
     main()
+
+    print("Success")
