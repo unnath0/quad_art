@@ -1,11 +1,10 @@
 from PIL import Image, ImageDraw
 import cv2
-import numpy as np 
-import imageio.v2 as imageio
 from collections import Counter
 import heapq
 import sys
 import os
+# import subprocess
 
 MODE_RECTANGLE = 1
 MODE_ELLIPSE = 2
@@ -211,6 +210,8 @@ def main():
 
     # Create a video from the saved frames
     create_video_from_frames(frames_dir, "output_video.mp4")
+
+    # subprocess.run(['./video_player', 'output_video.mp4'])
 
 
 if __name__ == "__main__":

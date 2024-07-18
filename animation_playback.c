@@ -7,8 +7,8 @@
 #include <stdlib.h>
 
 // window dimensions
-int win_width = 800;
-int win_height = 600;
+int win_width = 500;
+int win_height = 400;
 
 // function to display text
 void renderBitmapString(float x, float y, void *font, const char *string) {
@@ -59,15 +59,15 @@ void mouse(int btn, int state, int x, int y) {
 void display(void) {
   glClear(GL_COLOR_BUFFER_BIT);
 
-  glColor3f(0.0, 0.0, 0.0);
+  glColor3f(1.0, 1.0, 1.0);
 
   // display project title
-  renderBitmapString(-0.1, 0.8, GLUT_BITMAP_HELVETICA_18, "Quad Art");
+  renderBitmapString(-0.4, 0.8, GLUT_BITMAP_HELVETICA_18, "Quad Art");
 
   // display team members
-  renderBitmapString(-0.1, 0.6, GLUT_BITMAP_HELVETICA_12, "Team Members");
+  renderBitmapString(-0.4, 0.6, GLUT_BITMAP_HELVETICA_12, "Team Members");
   renderBitmapString(-0.1, 0.5, GLUT_BITMAP_HELVETICA_12, "Abhijnan S");
-  renderBitmapString(-0.1, 0.4, GLUT_BITMAP_HELVETICA_12, "Anand S P");
+  renderBitmapString(-0.4, 0.5, GLUT_BITMAP_HELVETICA_12, "Anand S P");
 
   // image upload button
   renderBitmapString(-0.1, 0.0, GLUT_BITMAP_HELVETICA_18, "Upload an image");
@@ -76,7 +76,7 @@ void display(void) {
 }
 
 void init(void) {
-  glClearColor(1.0, 1.0, 1.0, 1.0);
+  glClearColor(0.0, 0.0, 0.0, 1.0);
   // pass
 }
 
