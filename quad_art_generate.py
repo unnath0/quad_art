@@ -1,7 +1,11 @@
 from PIL import Image, ImageDraw
+import cv2
+import numpy as np 
+import imageio.v2 as imageio
 from collections import Counter
 import heapq
 import sys
+import os
 
 MODE_RECTANGLE = 1
 MODE_ELLIPSE = 2
@@ -9,7 +13,7 @@ MODE_ROUNDED_RECTANGLE = 3
 
 MODE = MODE_RECTANGLE
 ITERATIONS = 1024 * 12
-LEAF_SIZE = 8
+LEAF_SIZE = 4
 PADDING = 0
 FILL_COLOR = (0, 0, 0)
 SAVE_FRAMES = False
@@ -143,6 +147,37 @@ class Model(object):
             im.save(path, "PNG")  # Save final output image
 
 
+def create_video_from_frames(frames_dir, output_video, fps=4):
+    # Get a list of all files in the directory
+    files = os.listdir(frames_dir)
+
+    # Filter out non-image files (you can add more extensions if needed)
+    image_extensions = ['.jpg', '.jpeg', '.png', '.bmp', '.tiff']
+    image_files = [f for f in files if os.path.splitext(f)[1].lower() in image_extensions]
+    image_files.sort()
+
+    image = cv2.imread(os.path.join(frames_dir, image_files[0]))
+    height, width = image.shape[:2]
+    writer = cv2.VideoWriter(output_video, cv2.VideoWriter_fourcc(*"mp4v"), fps, (width, height))
+
+    # Iterate over image files and read them with OpenCV
+    for image_file in image_files:
+        # Construct the full path to the image file
+        image_path = os.path.join(frames_dir, image_file)
+    
+        # Read the image using OpenCV
+        image = cv2.imread(image_path)
+
+        # Check if the image was read successfully
+        if image is not None:
+            # resiz = cv2.resize(image, (width, height))
+            writer.write(image)
+        else:
+            print(f'Failed to read image: {image_file}')
+
+    writer.release()
+
+
 def main():
     args = sys.argv[1:]
     if len(args) != 1:
@@ -171,23 +206,11 @@ def main():
     print("-" * 32)
     print("             %8d %8.2f%%" % (len(model.quads), 100))
 
-    # # Generate GIF from saved frames
-    # frames_dir = "frames"
-    #
-    # # get a sorted list of all the images and add their image data to a list
-    # images = []
-    # for frame in sorted(os.listdir(frames_dir)):
-    #     if frame.endswith("png"):
-    #         frame_path = os.path.join(frames_dir, frame)
-    #         images.append(Image.open(frame_path))
-    #
-    # output_gif = "output.gif"
-    #
-    # # save the frames as a gif
-    # images[0].save(
-    #     output_gif, save_all=True, append_images=images[1:], loop=0, duration=100
-    # )
-    #
+    # Generate GIF from saved frames
+    frames_dir = "frames"
+
+    # Create a video from the saved frames
+    create_video_from_frames(frames_dir, "output_video.mp4")
 
 
 if __name__ == "__main__":
